@@ -11,7 +11,7 @@ const upload = multer({storage})
 
 
 route.post("/admincreate",checkAccessKey(),upload.single("Image"),Admincontroller.admincreate)
-// route.post("/adminLogin",checkAccessKey(),Admincontroller.adminLogin)
+route.post("/adminLogin",checkAccessKey(),Admincontroller.adminLogin)
 // route.patch("/updateadmin",adminMiddlewere(),checkAccessKey(),Admincontroller.adminUpdateData)
 // route.patch("/updatepass",adminMiddlewere(),checkAccessKey(),Admincontroller.adminPassworddata)
 

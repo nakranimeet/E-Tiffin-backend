@@ -31,3 +31,41 @@ exports.admincreate = async (req, res) => {
         return res.status(500).json({ status: false, error })
     }
 }
+
+
+
+exports.adminLogin = async(req,res) =>{
+    try {
+        const {email,password} = req.body;
+        
+        if(!email || !password){
+            return res.status(201).json({status:false,message:"Invalid details"})
+        }
+        const admin = await Admin.findOne({email})      
+        
+        if(!admin){
+            return res.status(201).json({status:false,message : "Invalid Email..!"})
+        }
+        
+        const checkPass = bcrypt.compareSync(password,admin.password)
+        
+        if(!checkPass){
+            
+            return res.status(201).json({status:false,message:"Invalid password"})
+            
+        }
+        const payload = {
+            _id:admin._id,
+            name:admin.name,
+            email:admin.email,
+            image : admin.image
+        }
+        
+        const token = jwt.sign(payload, JWT_TOKEN)
+        return res.status(200).json({status:true,message:"Admin Login Successfully....",token})
+        
+        
+    } catch (error) {
+        return res.status(500).json({status:false,error})
+    }
+}
