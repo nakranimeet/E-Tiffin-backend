@@ -1,0 +1,1 @@
+exports.Admin = require("../model/admin.model")
