@@ -32,8 +32,6 @@ exports.admincreate = async (req, res) => {
     }
 }
 
-
-
 exports.adminLogin = async(req,res) =>{
     try {
         const {email,password} = req.body;
