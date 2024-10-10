@@ -69,3 +69,86 @@ exports.adminLogin = async(req,res) =>{
         return res.status(500).json({status:false,error})
     }
 }
+
+
+exports.adminPassworddata = async(req,res) =>{
+    try {
+        const oldAdmin = req.admin
+        const {password,oldpassword} = req.body
+        if(!oldAdmin || !password){
+            return res.status(201).json({status:false,message:"Invalid details"})
+        }
+        const admin = await Admin.findById(oldAdmin._id)
+        if(!admin){
+            return res.status(201).json({status:false,message:"Invalid Token....!"})
+        }
+            const checkPass = bcrypt.compareSync(oldpassword,admin.password)
+            if(!checkPass){
+                
+                return res.status(201).json({status:false,message:"Invalid oldPassword"})
+            }
+        
+        // admin.password = password || admin.password
+
+        console.log("password",password);
+        
+        admin.password = bcrypt.hashSync(password, 10)
+        await admin.save()
+        
+        
+        const payload = {
+            _id:admin._id,
+            name: admin.name,
+            email : admin.email,
+            image: admin.image
+
+        }
+        const token = jwt.sign(payload,JWT_TOKEN)
+        return res.status(200).json({status:true,message:"Admin Login successfully...!",token})
+
+        
+    } catch (error) {
+        console.log("error",error);
+        return res.status(500).json({status:false,error})
+        
+    }
+}
+
+
+
+exports.adminUpdateData = async(req,res) =>{
+    try {
+        const oldAdmin = req.admin
+        const {name,email} = req.body
+
+        if(!oldAdmin){
+            return res.status(201).json({status:false,message:"Invalid Details"})
+        }
+        const admin = await Admin.findById(oldAdmin._id)
+        if(!admin){
+            return res.status(201).json({status:false,message:"Invalid Token....!"})
+            
+        }
+        
+        admin.name = name || admin.name
+        admin.email = email || admin.email
+        await admin.save()
+        
+        
+        const payload = {
+            _id:admin._id,
+            name: admin.name,
+            email : admin.email,
+            image: admin.image
+            
+        }
+        const token = jwt.sign(payload,JWT_TOKEN)
+        return res.status(200).json({status:true,message:"Admin Login successfully...!",token})
+        
+        
+    } catch (error) {
+        console.log("error",error);
+        return res.status(500).json({status:false,error})
+        
+    }
+}
