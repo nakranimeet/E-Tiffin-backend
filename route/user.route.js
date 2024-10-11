@@ -13,7 +13,8 @@ const upload = multer({storage})
 route.post("/signIn",checkAccessKey(),upload.single("Image"),Usercontroller.userSignIn)
 route.post("/userLogin",checkAccessKey(),Usercontroller.userLogin)
 // route.patch("/userforget",checkAccessKey(),userMiddlewere(),Usercontroller.userforget)
-// route.patch("/updateuser",checkAccessKey(),userMiddlewere(),Usercontroller.userUpdate)
+route.patch("/updateuser",checkAccessKey(),userMiddlewere(),Usercontroller.userUpdate)
+route.get("/getuser", Usercontroller.userGet)
 // route.patch("/imageupdate",checkAccessKey(),userMiddlewere(),upload.single("profileImage"),Usercontroller.userUpdateImage)
 
 module.exports = route
