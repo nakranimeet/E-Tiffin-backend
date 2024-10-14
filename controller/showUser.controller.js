@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Show = require("../model/index.model")
+const {Show} = require("../model/index.model")
 
 
 exports.createShow = async (req, res) => {
@@ -24,14 +24,16 @@ exports.createShow = async (req, res) => {
         show.address = address
         show.Image = req.file.path
         show.uniqueId = Math.floor(Math.random() * (99999 - 10000)) + 10000
-        console.log('uniqueId', uniqueId)
+        // console.log('uniqueId', uniqueId)
+        
         await show.save()
 
 
 
         return res.status(200).json({ status: true, message: "userShow successfully created", show })
     } catch (error) {
-
+        console.log(error);
+        
         return res.status(500).json({ status: false, error })
     }
 }
@@ -61,14 +63,14 @@ exports.updateShow = async (req, res) => {
         }
 
         const show = await Show.findById(showId)
-        user.name = name || user.name
-        user.email = email || user.email
-        user.phone = phone || user.phone
-        user.gender = gender || user.gender
-        user.username = username || user.username
-        user.address = address || user.address
+        show.name = name || show.name
+        show.email = email || show.email
+        show.phone = phone || show.phone
+        show.gender = gender || show.gender
+        show.username = username || show.username
+        show.address = address || show.address
         if (req.file) {
-            error.file = req.file.path
+            show.file = req.file.path
         }
         await show.save()
 
@@ -78,6 +80,8 @@ exports.updateShow = async (req, res) => {
 
 
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({ status: false, error })
     }
 }
