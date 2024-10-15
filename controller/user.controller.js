@@ -22,8 +22,6 @@ exports.userSignIn = async (req, res) => {
       
         const user = await new User()
 
-       
-
         user.name = name      
         user.email = email
         user.phone = phone
@@ -86,5 +84,67 @@ exports.userLogin = async (req, res) => {
     } catch (error) {
         console.log("error", error);
         return res.status(500).json({ status: false, error })
+    }
+}
+
+
+
+exports.userUpdate = async (req, res) => {
+    try {
+        const oldUser = req.user
+        const { name,email,phone,gender,username,address } = req.body
+
+        if (!oldUser) {
+            return res.status(201).json({ status: false, message: "Invalid Details" })
+        }
+        const user = await User.findById(oldUser._id)
+        if (!user) {
+            return res.status(201).json({ status: false, message: "Invalid Token....!" })
+
+        }
+
+        user.name = name || user.name
+        user.email = email || user.email
+        user.phone = phone || user.phone
+        user.gender = gender || user.gender
+        user.username = username || user.username
+        user.address = address || user.address
+        await user.save()
+
+
+        const payload = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone, 
+            password: user.password,
+            gender: user.gender,
+            username: user.username,
+            address: user.address, 
+            Image: user.Image,
+            uniqueId: user.uniqueId    
+        }
+        const token = jwt.sign(payload, JWT_TOKEN)
+        return res.status(200).json({ status: true, message: "User Update successfully...!", token })
+
+
+    } catch (error) {
+        console.log("error", error);
+        return res.status(500).json({ status: false, error })
+
+    }
+}
+
+
+exports.userGet = async (req,res) =>{
+    try {
+          const user= await User.find()
+          return res.status(201).json({status:true,message:"get successfully-----",user})
+
+                      
+    } 
+    catch (error) {
+        return res.status(500).json({status:false,error})
+
     }
 }

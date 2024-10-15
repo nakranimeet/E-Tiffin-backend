@@ -19,7 +19,7 @@ exports.admincreate = async (req, res) => {
         admin.name = name
         admin.email = email
         admin.password = bcrypt.hashSync(password, 10)   
-        admin.image = req.file.path
+        admin.Image = req.file.path
         
         await admin.save()
         
@@ -56,7 +56,7 @@ exports.adminLogin = async(req,res) =>{
             _id:admin._id,
             name:admin.name,
             email:admin.email,
-            Image : admin.Image
+            image : admin.image
         }
         console.log(payload)
         
@@ -99,7 +99,7 @@ exports.adminPassworddata = async(req,res) =>{
             _id:admin._id,
             name: admin.name,
             email : admin.email,
-            image: admin.image
+            Image: admin.image
 
         }
         const token = jwt.sign(payload,JWT_TOKEN)
@@ -139,7 +139,7 @@ exports.adminUpdateData = async(req,res) =>{
             _id:admin._id,
             name: admin.name,
             email : admin.email,
-            Image: admin.Image
+            image: admin.image
             
         }
         const token = jwt.sign(payload,JWT_TOKEN)
