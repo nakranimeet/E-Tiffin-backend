@@ -149,3 +149,46 @@ exports.userGet = async (req,res) =>{
 
     }
 }
+
+
+exports.userUpdateImage = async (req, res) => {
+    try {
+        const oldUser = req.user
+        console.log("errrrr", req.user);
+        console.log(req.body);
+        if (!oldUser) {
+            return res.status(201).json({ status: false, message: "Invalid details" })
+        }
+        const user = await User.findById(oldUser._id)
+        if (!user) {
+            return res.status(201).json({ status: false, message: "Invalid Token....!" })
+        }
+
+        user.Image = req.file.path
+
+        await user.save()
+
+        const payload = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone, 
+            password: user.password,
+            gender: user.gender,
+            username: user.username,
+            address: user.address, 
+            Image: user.Image,
+            uniqueId: user.uniqueId          
+        }
+
+        const token = jwt.sign(payload, JWT_TOKEN)
+        return res.status(200).json({ status: true, message: "User image  successfully updated...!", token })
+
+
+    } catch (error) {
+        console.log("error", error);
+        
+        return res.status(500).json({ status: false, error })
+
+    }
+}
