@@ -217,9 +217,7 @@ exports.userallUpdate = async (req, res) => {
         user.address = address || user.address
         user.password = password || user.password
         user.password=bcrypt.hashSync(password, 10)
-        if (req.file) {
-            user.file = req.file.path
-        }
+        user.Image = req.file.path || user.Image
         await user.save()
       
         // const payload = {

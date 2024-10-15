@@ -115,7 +115,6 @@ exports.adminPassworddata = async(req,res) =>{
 }
 
 
-
 exports.adminUpdateData = async(req,res) =>{
     try {
         const oldAdmin = req.admin
