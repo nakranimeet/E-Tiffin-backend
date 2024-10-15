@@ -10,4 +10,11 @@ route.use("/user",user)
 const show = require("./showUser.route")
 route.use("/show",show)
 
+const category = require("./category.route")
+route.use("/category",category)
+
+
+const tiffin = require("./tiffin.route")
+route.use("/tiffin",tiffin)
+
 module.exports = route

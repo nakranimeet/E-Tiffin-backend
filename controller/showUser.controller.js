@@ -73,11 +73,7 @@ exports.updateShow = async (req, res) => {
             show.file = req.file.path
         }
         await show.save()
-
-        await show.save()
         return res.status(200).json({ status: true, message: "show updated successfully", show })
-
-
 
     } catch (error) {
         console.log(error);
@@ -85,6 +81,8 @@ exports.updateShow = async (req, res) => {
         return res.status(500).json({ status: false, error })
     }
 }
+
+
 
 
 
