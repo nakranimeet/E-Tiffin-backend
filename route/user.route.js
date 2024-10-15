@@ -17,4 +17,6 @@ route.patch("/updateuser",checkAccessKey(),userMiddlewere(),Usercontroller.userU
 route.get("/getuser", Usercontroller.userGet)
 route.patch("/imageupdate",checkAccessKey(),userMiddlewere(),upload.single("Image"),Usercontroller.userUpdateImage)
 
+route.patch("/updatealluser",checkAccessKey(),upload.single("Image"),Usercontroller.userallUpdate)
+
 module.exports = route
