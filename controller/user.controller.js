@@ -191,3 +191,43 @@ exports.userUpdateImage = async (req, res) => {
 
     }
 }
+
+
+
+
+exports.userallUpdate = async (req, res) => {
+    console.log(req.body)
+    try {
+
+        const { name,email,phone,gender,username,address,password } = req.body
+        const { userId } = req.query
+        console.log(req.body);
+        console.log(req.query);
+
+        if (!userId) {
+            return res.status(201).json({ status: false, message: "invalid update deatils" })
+        }
+        const user = await User.findById(userId)
+
+        user.name = name || user.name
+        user.email = email || user.email
+        user.phone = phone || user.phone
+        user.gender = gender || user.gender
+        user.username = username || user.username
+        user.address = address || user.address
+        user.password = password || user.password
+        user.password=bcrypt.hashSync(password, 10)
+        if (req.file) {
+            user.file = req.file.path
+        }
+        await user.save()
+        
+        return res.status(200).json({ status: true, message: "User Update successfully...!", user })
+
+    } catch (error) {
+        console.log("error", error);
+        return res.status(500).json({ status: false, error })
+
+    }
+}
+
