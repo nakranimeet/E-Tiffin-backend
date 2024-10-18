@@ -20,4 +20,7 @@ route.use("/tiffin",tiffin)
 const gallery = require("./gallery.route")
 route.use("/gallery",gallery)
 
+const menu = require("./foodMenu.route")
+route.use("/menu",menu)
+
 module.exports = route
