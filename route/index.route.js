@@ -17,4 +17,7 @@ route.use("/category",category)
 const tiffin = require("./tiffin.route")
 route.use("/tiffin",tiffin)
 
+const gallery = require("./gallery.route")
+route.use("/gallery",gallery)
+
 module.exports = route

@@ -9,3 +9,6 @@ exports.Category = require("../model/category.model")
 exports.Menu = require("../model/foodMenu.model")
 
 exports.Tiffin = require("../model/tiffin.model")
+
+
+exports.Gallery = require("../model/gallery.model")

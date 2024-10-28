@@ -42,6 +42,8 @@ exports.categoryGet= async (req, res) => {
 
 
 exports.categoryUpdate = async (req, res) => {
+    console.log("req.body",req.body)
+    console.log("req.query",req.query)
     try {
         const { fname } = req.body
         const { categoryId } = req.query
@@ -54,10 +56,8 @@ exports.categoryUpdate = async (req, res) => {
 
         const category = await Category.findById(categoryId)
         category.fname = fname || category.fname
-        
-        if (req.file) {
-            category.file = req.file.path
-        }
+        category.Image = req.file.path || category.Image
+       
         await category.save()
         return res.status(200).json({ status: true, message: "category updated successfully", category })
 
@@ -72,6 +72,7 @@ exports.categoryUpdate = async (req, res) => {
 
 
 exports.categoryDelete = async (req, res) => {
+    console.log(req.query)
     try {
         const { categoryId } = req.query
         console.log(req.query);

@@ -114,7 +114,6 @@ exports.adminPassworddata = async(req,res) =>{
 }
 
 
-
 exports.adminUpdateData = async(req,res) =>{
     console.log(req.body)
     try {
