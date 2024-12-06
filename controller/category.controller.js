@@ -56,7 +56,7 @@ exports.categoryUpdate = async (req, res) => {
 
         const category = await Category.findById(categoryId)
         category.fname = fname || category.fname
-        category.Image = req.file.path || category.Image
+        category.Image = req?.file?.path || category.Image
        
         await category.save()
         return res.status(200).json({ status: true, message: "category updated successfully", category })

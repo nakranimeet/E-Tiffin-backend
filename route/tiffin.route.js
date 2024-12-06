@@ -1,7 +1,7 @@
 const express = require("express");
 
 const route = express.Router()
-const tiffincontroller = require("../controller/tiffin.model")
+const tiffincontroller = require("../controller/tiffin.controller")
 
 const multer = require("multer");
 const storage = require("../utils/multer")

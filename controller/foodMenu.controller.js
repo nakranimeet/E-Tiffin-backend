@@ -49,7 +49,7 @@ exports.menuGet = async (req, res) => {
           }
         },
         {
-          $unwind: '$menus' // Unwind to deconstruct the array and make it a single object
+          $unwind: '$menus' 
         }
       ]);
   console.log(menu)
@@ -76,7 +76,7 @@ exports.menuUpdate = async (req, res) => {
         menu.foodQuantity = foodQuantity || menu.foodQuantity
         menu.foodPrice = foodPrice || menu.foodPrice
         menu.foodInStock = foodInStock || menu.foodInStock
-        menu.foodImage = req.file.path || menu.foodImage
+        menu.foodImage = req?.file?.path || menu.foodImage
 
         await menu.save()
         return res.status(200).json({ status: true, message: "menu updated successfully", menu })

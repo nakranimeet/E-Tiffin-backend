@@ -23,4 +23,12 @@ route.use("/gallery",gallery)
 const menu = require("./foodMenu.route")
 route.use("/menu",menu)
 
+const addtocart = require("./addToCart.route")
+route.use("/cart",addtocart)
+
+
+const feedback = require("./feedBack.route")
+route.use("/feedback",feedback)
+
+
 module.exports = route

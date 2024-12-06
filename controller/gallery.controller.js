@@ -54,7 +54,7 @@ exports.galleryUpdate = async (req, res) => {
 
         const gallery = await Gallery.findById(galleryId)   
        
-            gallery.Image = req.file.path || gallery.Image
+            gallery.Image = req?.file?.path || gallery.Image
         
         await gallery.save()
         return res.status(200).json({ status: true, message: "gallery updated successfully", gallery })

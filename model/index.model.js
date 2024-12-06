@@ -10,5 +10,8 @@ exports.Menu = require("../model/foodMenu.model")
 
 exports.Tiffin = require("../model/tiffin.model")
 
-
 exports.Gallery = require("../model/gallery.model")
+
+exports.Addtocart = require("../model/addToCart.model")
+
+exports.Feedback = require("../model/feedBack.model")
