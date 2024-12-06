@@ -1,18 +1,22 @@
-// const mongoose  =require("mongoose");
+const mongoose  =require("mongoose");
 
-// const menuSchema = new mongoose.Schema({
+const menuSchema = new mongoose.Schema({
  
-//       Image:String,
-//       name:String,
-//       quentity:Number,
-//       price:Number,
-//       inStock:String,
-//       categoryId:String
+      foodImage:String,
+      foodName:String,
+      foodQuantity:Number,
+      foodPrice:Number,
+      foodInStock:String,
+      categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category', 
+    required: true
+  } 
 
-// },{
-//     timestamps:true,
-//     versionKey:false
-// })
+},{
+    timestamps:true,
+    versionKey:false
+})
 
 
-// module.exports = new mongoose.model("Menu",menuSchema)
+module.exports = new mongoose.model("Menu",menuSchema)

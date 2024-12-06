@@ -1,94 +1,112 @@
-// const mongoose = require("mongoose");
-// const {Category} = require("../model/index.model")
+const mongoose = require("mongoose");
+const {Menu} = require("../model/index.model")
 
 
-// exports.menuCreate = async (req, res) => {
-//     try {
-//         console.log(req.body);
+exports.menuCreate = async (req, res) => {
+    try {
+        console.log(req.body);
+        console.log(req.file);
 
-//         const {name,quentity,price,inStock} = req.body
+        const {foodName, foodQuantity, foodPrice, foodInStock, categoryId} = req.body
+        // console.log(error);
+        console.log();
+               
+        if (!foodName || !foodQuantity || !foodPrice || !foodInStock || !categoryId || !req.file) {
 
-//         if (!fname || !req.file) {
+            return res.status(201).json({ status: false, message: "Invalid Details" })
+        }
 
-//             return res.status(201).json({ status: false, message: "Invalid Details" })
-//         }
-
-//         const category = new Category()
-//         category.fname = fname
-//         category.Image = req.file.path
+        const menu = new Menu()
         
-//         await category.save()
-
-//         return res.status(200).json({ status: true, message: "FoodCategory successfully created", category })
+        menu.foodName = foodName
+        menu.foodQuantity = foodQuantity
+        menu.foodPrice = foodPrice
+        menu.foodInStock = foodInStock
+        menu.categoryId = categoryId
+        menu.foodImage = req.file.path
         
-//     } catch (error) {
-//         console.log(error);
+        await menu.save()
+
+        return res.status(200).json({ status: true, message: "FoodMenu successfully created", menu})
         
-//         return res.status(500).json({ status: false, error })
-//     }
-// }
-
-// exports.categoryGet= async (req, res) => {
-//     try {
-
-//         const category = await Category.find()
-
-//         return res.status(200).json({ status: true, message: "get successfully category", category })
-
-//     } catch (error) {
-//         return res.status(500).json({ status: false, error })
-//     }
-// }
-
-
-// exports.categoryUpdate = async (req, res) => {
-//     try {
-//         const { fname } = req.body
-//         const { categoryId } = req.query
-//         console.log(req.body);
-//         console.log(req.query);
-
-//         if (!categoryId) {
-//             return res.status(201).json({ status: false, message: "invalid update deatils" })
-//         }
-
-//         const category = await Category.findById(categoryId)
-//         category.fname = fname || category.fname
+    } catch (error) {
+        console.log(error);
         
-//         if (req.file) {
-//             category.file = req.file.path
-//         }
-//         await category.save()
-//         return res.status(200).json({ status: true, message: "category updated successfully", category })
+        return res.status(500).json({ status: false, error })
+    }
+}
 
 
-//     } catch (error) {
-//         console.log(error);
+exports.menuGet = async (req, res) => {
+    try {
+          const menu = await Menu.aggregate([
+        {
+          $lookup: {
+            from: 'categories', 
+            localField: 'categoryId',
+            foreignField: '_id', 
+            as: 'menus' 
+          }
+        },
+        {
+          $unwind: '$menus' // Unwind to deconstruct the array and make it a single object
+        }
+      ]);
+  console.log(menu)
+      return res.status(200).json({status:true,message:"menu get successfully",menu})
+
+    } catch (error) {
+      res.status(500).json({ status:false,error });
+    }
+  };
+
+exports.menuUpdate = async (req, res) => {
+    try {
+        const { foodName,foodQuantity,foodPrice,foodInStock } = req.body
+        const { menuId } = req.query
+        console.log(req.body);
+        console.log(req.query);
+
+        if (!menuId) {
+            return res.status(201).json({ status: false, message: "invalid update deatils" })
+        }
+
+        const menu = await Menu.findById(menuId)
+        menu.foodName = foodName || menu.foodName
+        menu.foodQuantity = foodQuantity || menu.foodQuantity
+        menu.foodPrice = foodPrice || menu.foodPrice
+        menu.foodInStock = foodInStock || menu.foodInStock
+        menu.foodImage = req.file.path || menu.foodImage
+
+        await menu.save()
+        return res.status(200).json({ status: true, message: "menu updated successfully", menu })
+
+
+    } catch (error) {
+        console.log(error);
         
-//         return res.status(500).json({ status: false, error })
-//     }
-// }
+        return res.status(500).json({ status: false, error })
+    }
+}
+
+exports.menuDelete = async (req, res) => {
+    try {
+        const { menuId } = req.query
+        console.log(req.query);
+
+        if (!menuId) {
+            return res.status(201).json({ status: false, message: "invalid delete deatails in menu" })
+        }
+        const menu = await Menu.findById(menuId)
+        await menu.deleteOne()
+
+        return res.status(200).json({ status: true, message: "successfully deleted in menu", menu })
 
 
-
-// exports.categoryDelete = async (req, res) => {
-//     try {
-//         const { categoryId } = req.query
-//         console.log(req.query);
-
-//         if (!categoryId) {
-//             return res.status(201).json({ status: false, message: "invalid delete deatails in category" })
-//         }
-//         const category = await Category.findById(categoryId)
-//         await category.deleteOne()
-
-//         return res.status(200).json({ status: true, message: "successfully deleted in category", category })
-
-
-//     } catch (error) {
-//         return res.status(500).json({ status: false, error })
-//     }
-// }
+    } catch (error) {
+        return res.status(500).json({ status: false, error })
+    }
+}
 
 
 
