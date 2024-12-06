@@ -69,7 +69,7 @@ exports.updateShow = async (req, res) => {
         show.gender = gender || show.gender
         show.username = username || show.username
         show.address = address || show.address
-        show.Image = req.file.path || show.Image
+        show.Image = req?.file?.path || show.Image
         await show.save()
         return res.status(200).json({ status: true, message: "show updated successfully", show })
 
